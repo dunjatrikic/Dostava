@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
-
+import java.util.Date;
 
 
 @Configuration
@@ -48,8 +47,8 @@ public class DataConfiguration {
 
     @Bean
     public boolean instantiate(){
-        Kupac kupac = new Kupac("andrea123","mitic123","Andrea","Mitic");
-        korisnikRepository.save(kupac);
+       // Kupac kupac = new Kupac(1, "andrea123", "mitic123", "Andrea", "Mitic", "Z",  new Date(), 1, 5, 1);
+        //korisnikRepository.save(kupac);
         Menadzer menadzer = new Menadzer("dunja","lozinka","Dunja","Trikic");
         menadzerRepository.save(menadzer);
 

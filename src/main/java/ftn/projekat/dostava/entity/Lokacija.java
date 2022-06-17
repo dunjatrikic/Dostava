@@ -1,8 +1,10 @@
 package ftn.projekat.dostava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
-
+@JsonIgnoreProperties(value ={"hibernateLazyInitializer","handler"})
 @Entity
 public class Lokacija implements Serializable {
 
@@ -10,11 +12,14 @@ public class Lokacija implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private float geografskaDuzina; // bolje double
+    @OneToOne
+    private Restoran restoran;
 
     @Column
-    private float geografskaSirina;
+    private double geografskaDuzina; // bolje double
+
+    @Column
+    private double geografskaSirina;
 
     @Column
     private String adresa;
@@ -22,11 +27,11 @@ public class Lokacija implements Serializable {
     public Lokacija() {
     }
 
-    public float getGeografskaDuzina() {
+    public double getGeografskaDuzina() {
         return geografskaDuzina;
     }
 
-    public float getGeografskaSirina() {
+    public double getGeografskaSirina() {
         return geografskaSirina;
     }
 
@@ -46,13 +51,4 @@ public class Lokacija implements Serializable {
         this.adresa = adresa;
     }
 
-    @Override
-    public String toString() {
-        return "Lokacija{" +
-                "id=" + id +
-                ", geografskaDuzina=" + geografskaDuzina +
-                ", geografskaSirina=" + geografskaSirina +
-                ", adresa='" + adresa + '\'' +
-                '}';
-    }
 }

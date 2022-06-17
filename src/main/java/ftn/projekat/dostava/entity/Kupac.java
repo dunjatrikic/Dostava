@@ -1,10 +1,16 @@
 package ftn.projekat.dostava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 @Entity
 public class Kupac extends Korisnik implements Serializable {
 
@@ -12,7 +18,7 @@ public class Kupac extends Korisnik implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "kupac",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "kupac",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Porudzbina> porudzbine = new HashSet<>();
 
     @Column
@@ -23,18 +29,25 @@ public class Kupac extends Korisnik implements Serializable {
     @JoinColumn(name = "tipKupca",referencedColumnName = "id")
     private TipKupca tip;
 
+    @OneToMany(mappedBy = "kupac", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Komentar> komentari = new HashSet<>();
+
+    @OneToOne(mappedBy = "kupac", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Korpa korpa;
+
+
     public Kupac() {
-        this.bodovi = 0;
     }
 
-    public Kupac(String korisnickoIme, String lozinka, String ime, String prezime) {
-        this.korisnickoIme = korisnickoIme;
-        this.lozinka = lozinka;
-        this.ime = ime;
-        this.prezime = prezime;
-        setUloga(Uloga.Kupac);
+   /* public Kupac(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String pol, Date datumRodjenja, Set<Porudzbina> porudzbine, int bodovi, TipKupca tip) {
+        super(id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
+        this.porudzbine = porudzbine;
+        this.bodovi = bodovi;
+        this.uloga = Uloga.Kupac;
+        this.tip = tip;
+    }*/
 
-    }
     public Long getId() {
         return id;
     }
@@ -65,20 +78,28 @@ public class Kupac extends Korisnik implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Kupac{" +
-                "id=" + id +
-                ", korisnickoIme='" + korisnickoIme + '\'' +
-                ", lozinka='" + lozinka + '\'' +
-                ", ime='" + ime + '\'' +
-                ", prezime='" + prezime + '\'' +
-                ", pol='" + pol + '\'' +
-                ", datumRodjenja=" + datumRodjenja +
-                ", uloga=" + uloga +
-                ", id=" + id +
-                ", porudzbine=" + porudzbine +
-                ", bodovi=" + bodovi +
-                ", tip=" + tip +
-                '}';
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Komentar> getKomentari() {
+        return komentari;
+    }
+
+    public void setKomentari(Set<Komentar> komentari) {
+        this.komentari = komentari;
+    }
+
+    public Korpa getKorpa() {
+        return korpa;
+    }
+
+    public void setKorpa(Korpa korpa) {
+        this.korpa = korpa;
+    }
+
+    public void dodajBodove(int bodovi)
+    {
+        this.bodovi += bodovi;
     }
 }

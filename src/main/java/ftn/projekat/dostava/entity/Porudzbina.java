@@ -44,7 +44,6 @@ public class Porudzbina implements Serializable {
     @Column
     private String kupacIme;
 
-
     @Column
     private Status status;
 
@@ -118,6 +117,7 @@ public class Porudzbina implements Serializable {
     public Status getStatus() {
         return status;
     }
+
 
     public void setStatus(Status status) {
         this.status = status;

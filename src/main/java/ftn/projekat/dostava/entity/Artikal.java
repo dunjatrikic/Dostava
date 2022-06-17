@@ -39,7 +39,7 @@ public class Artikal implements Serializable {
     private Tip tip;
 
     @Column
-    private double kolicina;
+    private int kolicina;
 
     @Column
     private String opis;
@@ -47,7 +47,7 @@ public class Artikal implements Serializable {
 
     public Artikal() {
     }
-    public Artikal(Long id, String naziv, float cena, Tip tip, double kolicina, String opis) {
+    public Artikal(Long id, String naziv, float cena, Tip tip, int kolicina, String opis) {
         this.id = id;
         this.naziv = naziv;
         this.cena = cena;
@@ -88,11 +88,11 @@ public class Artikal implements Serializable {
         this.tip = tip;
     }
 
-    public double getKolicina() {
+    public int getKolicina() {
         return kolicina;
     }
 
-    public void setKolicina(double kolicina) {
+    public void setKolicina(int kolicina) {
         this.kolicina = kolicina;
     }
 
