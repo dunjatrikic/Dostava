@@ -1,18 +1,30 @@
 package ftn.projekat.dostava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 @Entity
 public class Menadzer extends Korisnik implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @OneToOne(mappedBy = "menadzer")
+    @JsonIgnore
+    private Restoran restoran;
 
     @OneToOne
     @JoinColumn(name = "restoran",referencedColumnName = "id")
-    private Restoran restoran;
+    private Restoran zaduzenRestoran;
+
+
+    public Menadzer(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String pol, Date datumRodjenja) {
+        super(id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
+        this.uloga = Uloga.Menadzer;
+    }
 
     public Menadzer() {
     }
@@ -27,27 +39,11 @@ public class Menadzer extends Korisnik implements Serializable {
 
     }
 
-    public Restoran getRestoran() {
-        return restoran;
+    public Restoran getZaduzenRestoran() {
+        return zaduzenRestoran;
     }
 
-    public void setRestoran(Restoran restoran) {
-        this.restoran = restoran;
-    }
-
-    @Override
-    public String toString() {
-        return "Menadzer{" +
-                "id=" + id +
-                ", korisnickoIme='" + korisnickoIme + '\'' +
-                ", lozinka='" + lozinka + '\'' +
-                ", ime='" + ime + '\'' +
-                ", prezime='" + prezime + '\'' +
-                ", pol='" + pol + '\'' +
-                ", datumRodjenja=" + datumRodjenja +
-                ", uloga=" + uloga +
-                ", id=" + id +
-                ", restoran=" + restoran +
-                '}';
+    public void setZaduzenRestoran(Restoran zaduzenRestoran) {
+        this.zaduzenRestoran = zaduzenRestoran;
     }
 }

@@ -1,29 +1,47 @@
 package ftn.projekat.dostava.dto;
 
+
+import ftn.projekat.dostava.entity.Korisnik;
+
+
 public class KorisnikDto {
+    private Long id;
 
     private String korisnickoIme;
-    private String ime;
-    private String prezime;
 
     private String lozinka;
+
+    private String ime;
+
+    private String prezime;
+
+
 
     public KorisnikDto() {
     }
 
-    public KorisnikDto(String korisnickoIme, String ime, String prezime, String lozinka) {
+    public KorisnikDto(Long id, String korisnickoIme, String lozinka, String ime, String prezime) {
+        this.id = id;
         this.korisnickoIme = korisnickoIme;
+        this.lozinka = lozinka;
         this.ime = ime;
         this.prezime = prezime;
-        this.lozinka = lozinka;
     }
 
-    public KorisnikDto(KorisnikDto korisnik){
+    public KorisnikDto(Korisnik korisnik) {
+        this.id = korisnik.getId();
         this.korisnickoIme = korisnik.getKorisnickoIme();
+        this.lozinka = korisnik.getLozinka();
         this.ime = korisnik.getIme();
         this.prezime = korisnik.getPrezime();
-        this.lozinka = korisnik.getLozinka();
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getKorisnickoIme() {
@@ -32,6 +50,14 @@ public class KorisnikDto {
 
     public void setKorisnickoIme(String korisnickoIme) {
         this.korisnickoIme = korisnickoIme;
+    }
+
+    public String getLozinka() {
+        return lozinka;
+    }
+
+    public void setLozinka(String lozinka) {
+        this.lozinka = lozinka;
     }
 
     public String getIme() {
@@ -48,13 +74,5 @@ public class KorisnikDto {
 
     public void setPrezime(String prezime) {
         this.prezime = prezime;
-    }
-
-    public String getLozinka() {
-        return lozinka;
-    }
-
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
     }
 }

@@ -1,17 +1,28 @@
 package ftn.projekat.dostava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-enum Tip {
-    jelo,
-    pice;
-}
+
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 
 @Entity
 public class Artikal implements Serializable {
+
+    @ManyToOne
+    @JsonIgnore
+    private Restoran restoran;
+
+    @OneToOne(mappedBy = "artikal")
+    private PoruceniArtikli poruceniArtikli;
+
+    @ManyToOne
+    private Korpa korpa;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +32,14 @@ public class Artikal implements Serializable {
     private String naziv;
 
     @Column
-    private float cena;
+    private double cena;
 
     @Column
-    @Enumerated
+    @JsonIgnore
     private Tip tip;
 
     @Column
-    private double kolicina;
+    private int kolicina;
 
     @Column
     private String opis;
@@ -36,7 +47,7 @@ public class Artikal implements Serializable {
 
     public Artikal() {
     }
-    public Artikal(Long id, String naziv, float cena, Tip tip, double kolicina, String opis) {
+    public Artikal(Long id, String naziv, float cena, Tip tip, int kolicina, String opis) {
         this.id = id;
         this.naziv = naziv;
         this.cena = cena;
@@ -61,7 +72,7 @@ public class Artikal implements Serializable {
         this.naziv = naziv;
     }
 
-    public float getCena() {
+    public double getCena() {
         return cena;
     }
 
@@ -77,11 +88,11 @@ public class Artikal implements Serializable {
         this.tip = tip;
     }
 
-    public double getKolicina() {
+    public int getKolicina() {
         return kolicina;
     }
 
-    public void setKolicina(double kolicina) {
+    public void setKolicina(int kolicina) {
         this.kolicina = kolicina;
     }
 

@@ -1,9 +1,10 @@
 package ftn.projekat.dostava.repository;
 
-import ftn.projekat.dostava.entity.Lokacija;
+import ftn.projekat.dostava.entity.PoruceniArtikli;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LokacijaRepository extends JpaRepository<Lokacija,Long> {
+public interface PoruceniArtikliRepository extends JpaRepository<PoruceniArtikli, Long> {
+
 }

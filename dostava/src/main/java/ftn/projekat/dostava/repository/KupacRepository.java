@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KupacRepository extends JpaRepository<Kupac,Long> {
-    Kupac getByKorisnickoIme(String korisnickoIme);
 }

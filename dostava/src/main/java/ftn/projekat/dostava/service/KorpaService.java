@@ -1,4 +1,4 @@
 package ftn.projekat.dostava.service;
 
-public class KupacService {
+public class KorpaService {
 }

@@ -4,18 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
- enum Uloga {
-    Admin,
-    Menadzer,
-    Dostavljac,
-    Kupac
-}
-
-enum Pol {
-     M,
-    Z
-}
-
 
 @Entity
 public class Korisnik implements Serializable {
@@ -37,25 +25,33 @@ public class Korisnik implements Serializable {
     protected String prezime;
 
     @Column(name = "pol")
-    @Enumerated
-    protected Pol pol;
+    protected String pol;
 
     @Column(name = "datumRodjenja")
     protected Date datumRodjenja;
 
     @Column(name = "uloga")
-    @Enumerated
     protected Uloga uloga;
 
     public Korisnik() {
     }
 
-    public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime) {
+    public Korisnik(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String pol, Date datumRodjenja) {
+        this.id = id;
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.ime = ime;
         this.prezime = prezime;
+        this.pol = pol;
+        this.datumRodjenja = datumRodjenja;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getKorisnickoIme() {
@@ -90,11 +86,11 @@ public class Korisnik implements Serializable {
         this.prezime = prezime;
     }
 
-    public Pol getPol() {
+    public String getPol() {
         return pol;
     }
 
-    public void setPol(Pol pol) {
+    public void setPol(String pol) {
         this.pol = pol;
     }
 
