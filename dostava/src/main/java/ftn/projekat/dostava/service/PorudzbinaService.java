@@ -8,9 +8,7 @@ import ftn.projekat.dostava.entity.Status;
 import ftn.projekat.dostava.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Stack;
 
 
 @Service

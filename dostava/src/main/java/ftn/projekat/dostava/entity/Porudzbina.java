@@ -1,6 +1,7 @@
 package ftn.projekat.dostava.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -19,9 +20,6 @@ public class Porudzbina implements Serializable {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "ID", updatable = false, nullable = false)
     private java.util.UUID UUID;
-   /* @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;*/
-
 
    @ManyToOne
    private Dostavljac dostavljac;
@@ -32,14 +30,22 @@ public class Porudzbina implements Serializable {
    @OneToMany(mappedBy = "porudzbina", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    private Set<PoruceniArtikli> artikli = new HashSet<>();
 
-   @OneToOne
+   @JsonIgnore
+   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @JoinColumn(name = "id_restorana", referencedColumnName = "id")
    private Restoran restoranporuceno;
 
+
+   @JsonIgnore
+   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @JoinColumn(name = "uuid_porudzbine", referencedColumnName = "uudi")
+   private Set<StavkaPorudzbine> stavkaPorudzbine = new HashSet<>();
     @Column
     private double ukCena;
 
     @Column
-    private Date datumVreme;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date datumVreme = new Date();
 
     @Column
     private String kupacIme;
@@ -47,8 +53,28 @@ public class Porudzbina implements Serializable {
     @Column
     private Status status;
 
+    public double izracunajCenu() {
+        ukCena = 0;
+        for(StavkaPorudzbine s: stavkaPorudzbine)
+        {
+            ukCena += (s.getPorucenaKolicina() * s.getArtikal().getCena());
+        }
+        return ukCena;
+    }
+
+    public void dodajStavku(StavkaPorudzbine novaStavka)
+    {
+        this.stavkaPorudzbine.add(novaStavka);
+    }
+
+    public void ukloniStavku(StavkaPorudzbine izbrisiStavku)
+    {
+        this.stavkaPorudzbine.remove(izbrisiStavku);
+    }
+
     public Porudzbina() {
     }
+
 
     public java.util.UUID getUUID() {
         return UUID;
@@ -122,4 +148,14 @@ public class Porudzbina implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public Set<StavkaPorudzbine> getStavkaPorudzbine() {
+        return stavkaPorudzbine;
+    }
+
+    public void setStavkaPorudzbine(Set<StavkaPorudzbine> stavkaPorudzbine) {
+        this.stavkaPorudzbine = stavkaPorudzbine;
+    }
+
+
 }
