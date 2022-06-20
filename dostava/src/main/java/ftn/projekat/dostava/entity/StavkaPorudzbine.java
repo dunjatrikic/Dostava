@@ -1,3 +1,4 @@
+
 package ftn.projekat.dostava.entity;
 
 import javax.persistence.*;
@@ -42,3 +43,4 @@ import java.io.Serializable;
             this.porucenaKolicina = porucenaKolicina;
         }
 }
+

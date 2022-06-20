@@ -1,3 +1,4 @@
+
 package ftn.projekat.dostava.service;
 
 import ftn.projekat.dostava.entity.Korisnik;
@@ -24,3 +25,4 @@ public class KorisnikService {
         return korisnik;
     }
 }
+
