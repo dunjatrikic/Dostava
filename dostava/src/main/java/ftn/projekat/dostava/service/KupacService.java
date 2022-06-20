@@ -1,2 +1,6 @@
-package ftn.projekat.dostava.service;public class KupacService {
+
+package ftn.projekat.dostava.service;
+
+public class KupacService {
 }
+

@@ -1,12 +1,19 @@
 package ftn.projekat.dostava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
+import javax.websocket.ClientEndpoint;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Restoran implements Serializable {
+
+    @OneToOne
+    private Menadzer menadzer;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +25,18 @@ public class Restoran implements Serializable {
     @Column
     private String tipRestorana;
 
-    @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "artikal_id",referencedColumnName = "id")
-    private Set<Artikal>artikli = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private StatusRestorana statusRestorana;
 
-    @OneToOne
+    @OneToMany(mappedBy = "restoran", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinColumn(name = "id_restorana",referencedColumnName = "id")
+    private Set<Artikal> artikli  = new HashSet<>();
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_lokacije",referencedColumnName = "id")
     private Lokacija lokacija;
+
 
     public Restoran() {
     }
@@ -60,6 +73,14 @@ public class Restoran implements Serializable {
         this.lokacija = lokacija;
     }
 
+    public StatusRestorana getStatusRestorana() {
+        return statusRestorana;
+    }
+
+    public void setStatusRestorana(StatusRestorana statusRestorana) {
+        this.statusRestorana = statusRestorana;
+    }
+
     @Override
     public String toString() {
         return "Restoran{" +
@@ -70,4 +91,6 @@ public class Restoran implements Serializable {
                 ", lokacija=" + lokacija +
                 '}';
     }
+
+
 }

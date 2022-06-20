@@ -1,3 +1,4 @@
+
 package ftn.projekat.dostava.entity;
 
 public enum Uloga {
@@ -6,3 +7,4 @@ public enum Uloga {
     Dostavljac,
     Kupac
 }
+
