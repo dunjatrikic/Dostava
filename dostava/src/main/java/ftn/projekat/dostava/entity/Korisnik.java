@@ -1,6 +1,7 @@
 package ftn.projekat.dostava.entity;
 
 import javax.persistence.*;
+import javax.swing.text.DefaultStyledDocument;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,14 +25,15 @@ public class Korisnik implements Serializable {
     @Column(name = "prezime")
     protected String prezime;
 
-    @Column(name = "pol")
-    protected String pol;
-
     @Column(name = "datumRodjenja")
-    protected Date datumRodjenja;
+    @Temporal(TemporalType.TIMESTAMP)
+    protected Date datumRodjenja = new Date();
 
     @Column(name = "uloga")
     protected Uloga uloga;
+
+    @Enumerated(EnumType.STRING)
+    protected Pol pol;
 
     public Korisnik() {
     }
@@ -42,7 +44,6 @@ public class Korisnik implements Serializable {
         this.lozinka = lozinka;
         this.ime = ime;
         this.prezime = prezime;
-        this.pol = pol;
         this.datumRodjenja = datumRodjenja;
     }
 
@@ -86,13 +87,7 @@ public class Korisnik implements Serializable {
         this.prezime = prezime;
     }
 
-    public String getPol() {
-        return pol;
-    }
-
-    public void setPol(String pol) {
-        this.pol = pol;
-    }
+    public void setPol(Pol pol) {   this.pol = pol; }
 
     public Date getDatumRodjenja() {
         return datumRodjenja;
@@ -101,7 +96,6 @@ public class Korisnik implements Serializable {
     public void setDatumRodjenja(Date datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
-
     public Uloga getUloga() {
         return uloga;
     }
@@ -109,6 +103,7 @@ public class Korisnik implements Serializable {
     public void setUloga(Uloga uloga) {
         this.uloga = uloga;
     }
+
 
     @Override
     public String toString() {
@@ -123,4 +118,6 @@ public class Korisnik implements Serializable {
                 ", uloga=" + uloga +
                 '}';
     }
+
+
 }

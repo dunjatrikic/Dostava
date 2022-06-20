@@ -3,9 +3,11 @@ package ftn.projekat.dostava.service;
 import ftn.projekat.dostava.entity.Artikal;
 import ftn.projekat.dostava.repository.ArtikalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ArtikalService {
     @Autowired
     private ArtikalRepository artikalRepository;

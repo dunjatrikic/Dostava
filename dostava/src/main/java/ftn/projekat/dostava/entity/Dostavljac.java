@@ -8,17 +8,15 @@ import java.util.Set;
 @Entity
 public class Dostavljac extends Korisnik implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "porudzbina",referencedColumnName = "id")
     private Set<Porudzbina> porudzbine = new HashSet<>();
 
     public Dostavljac() {
     }
-
+    public void dodajPorudzbinu(Porudzbina p){
+        porudzbine.add(p);
+    }
     public Dostavljac(String korisnickoIme, String lozinka, String ime, String prezime) {
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
@@ -51,4 +49,5 @@ public class Dostavljac extends Korisnik implements Serializable {
                 ", uloga=" + uloga +
                 '}';
     }
+
 }

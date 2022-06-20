@@ -16,15 +16,10 @@ public class Menadzer extends Korisnik implements Serializable {
     @JsonIgnore
     private Restoran restoran;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "restoran",referencedColumnName = "id")
     private Restoran zaduzenRestoran;
 
-
-    public Menadzer(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String pol, Date datumRodjenja) {
-        super(id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
-        this.uloga = Uloga.Menadzer;
-    }
 
     public Menadzer() {
     }
