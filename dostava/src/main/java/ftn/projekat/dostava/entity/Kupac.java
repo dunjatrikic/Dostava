@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,13 +41,14 @@ public class Kupac extends Korisnik implements Serializable {
     public Kupac() {
     }
 
-   /* public Kupac(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String pol, Date datumRodjenja, Set<Porudzbina> porudzbine, int bodovi, TipKupca tip) {
-        super(id, korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
+    public Kupac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja, int bodovi, TipKupca tip) {
+        super( korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
         this.porudzbine = porudzbine;
         this.bodovi = bodovi;
         this.uloga = Uloga.Kupac;
         this.tip = tip;
-    }*/
+        this.porudzbine = new HashSet<>();
+    }
 
     public Long getId() {
         return id;
@@ -77,10 +79,10 @@ public class Kupac extends Korisnik implements Serializable {
         this.tip = tip;
     }
 
-    @Override
+   /* @Override
     public void setId(Long id) {
         this.id = id;
-    }
+    }*/
 
     public Set<Komentar> getKomentari() {
         return komentari;

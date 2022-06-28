@@ -1,6 +1,7 @@
 package ftn.projekat.dostava.service;
 
 import ftn.projekat.dostava.entity.Dostavljac;
+import ftn.projekat.dostava.entity.Korisnik;
 import ftn.projekat.dostava.repository.DostavljacRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class DostavljacService {
     public Dostavljac save(Dostavljac dostavljac){
         return this.dostavljacRepository.save(dostavljac);
     }
+
 
     public List<Dostavljac> findAll(){
         return dostavljacRepository.findAll();

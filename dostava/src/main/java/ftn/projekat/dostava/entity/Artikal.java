@@ -36,7 +36,7 @@ public class Artikal implements Serializable {
 
     @Column
     @JsonIgnore
-    private Tip tip;
+    private TipArtikla tip;
 
     @Column
     private int kolicina;
@@ -47,8 +47,8 @@ public class Artikal implements Serializable {
 
     public Artikal() {
     }
-    public Artikal(Long id, String naziv, float cena, Tip tip, int kolicina, String opis) {
-        this.id = id;
+    public Artikal( String naziv, float cena, TipArtikla tip, int kolicina, String opis) {
+
         this.naziv = naziv;
         this.cena = cena;
         this.tip = tip;
@@ -56,7 +56,7 @@ public class Artikal implements Serializable {
         this.opis = opis;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -80,11 +80,11 @@ public class Artikal implements Serializable {
         this.cena = cena;
     }
 
-    public Tip getTip() {
+    public TipArtikla getTip() {
         return tip;
     }
 
-    public void setTip(Tip tip) {
+    public void setTip(TipArtikla tip) {
         this.tip = tip;
     }
 

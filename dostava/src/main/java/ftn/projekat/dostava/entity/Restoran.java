@@ -28,17 +28,37 @@ public class Restoran implements Serializable {
     @Enumerated(EnumType.STRING)
     private StatusRestorana statusRestorana;
 
-    @OneToMany(mappedBy = "restoran", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
     @JsonIgnore
-    @JoinColumn(name = "id_restorana",referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_restorana")
     private Set<Artikal> artikli  = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_lokacije",referencedColumnName = "id")
     private Lokacija lokacija;
 
 
     public Restoran() {
+    }
+
+    public Restoran(String naziv, String tipRestorana,  Lokacija lokacija) {
+        this.naziv = naziv;
+        this.tipRestorana = tipRestorana;
+        this.lokacija = lokacija;
+    }
+
+
+    public Menadzer getMenadzer() {
+        return menadzer;
+    }
+
+    public void setMenadzer(Menadzer menadzer) {
+        this.menadzer = menadzer;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getNaziv() {

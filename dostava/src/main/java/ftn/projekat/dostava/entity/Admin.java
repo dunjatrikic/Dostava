@@ -4,22 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class Admin extends Korisnik{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     public Admin() {
+        super();
+        super.setUloga(Uloga.Admin);
     }
 
-    public Admin(String korisnickoIme, String lozinka, String ime, String prezime) {
-        this.korisnickoIme = korisnickoIme;
-        this.lozinka = lozinka;
-        this.ime = ime;
-        this.prezime = prezime;
+    public Admin(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja) {
+        super(korisnickoIme,lozinka,ime,prezime,pol,datumRodjenja);
         setUloga(Uloga.Admin);
     }
 }

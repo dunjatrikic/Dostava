@@ -55,4 +55,8 @@ public class AdminService {
         return  this.lokacijaService.getLokacijaById(id);
     }
 
+    public Restoran getRestoranByNaziv(String naziv){
+        return  this.restoranService.findByNaziv(naziv);
+    }
+
 }

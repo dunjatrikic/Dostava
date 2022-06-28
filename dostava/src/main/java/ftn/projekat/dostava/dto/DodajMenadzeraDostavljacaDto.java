@@ -4,52 +4,52 @@ import ftn.projekat.dostava.entity.Pol;
 import ftn.projekat.dostava.entity.Uloga;
 
 public class DodajMenadzeraDostavljacaDto {
-    private String ime;
+    private static String ime;
 
-    private String prezime;
+    private static String prezime;
 
-    private String korisnickoIme;
+    private static String korisnickoIme;
 
-    private String lozinka;
+    private static String lozinka;
 
-    private Uloga uloga;
+    private static Uloga uloga;
 
-    private Pol pol;
+    private static Pol pol;
 
     public DodajMenadzeraDostavljacaDto() { }
 
     public DodajMenadzeraDostavljacaDto(String ime, String prezime,
-                    String korisnickoIme, String lozinka, Uloga uloga,
-                    Pol pol) {
+                    String korisnickoIme, String lozinka, String uloga,
+                    String pol) {
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
-        this.uloga = uloga;
-        this.pol = pol;
+        this.uloga = Uloga.valueOf(uloga);
+        this.pol = Pol.valueOf(pol);
     }
 
-    public String getIme() {
+    public static String getIme() {
         return ime;
     }
 
-    public String getPrezime() {
+    public static String getPrezime(){
         return prezime;
     }
 
-    public String getKorisnickoIme() {
+    public static String getKorisnickoIme() {
         return korisnickoIme;
     }
 
-    public String getLozinka() {
+    public static String getLozinka() {
         return lozinka;
     }
 
-    public Uloga getUloga() {
+    public static Uloga getUloga() {
         return uloga;
     }
 
-    public Pol getPol() {
+    public static Pol getPol() {
         return pol;
     }
 

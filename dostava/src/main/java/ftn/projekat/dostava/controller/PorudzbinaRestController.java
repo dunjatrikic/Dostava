@@ -100,7 +100,7 @@ public class PorudzbinaRestController {
                 Set<Porudzbina> listaDostavljacevihPorudzbina =  ulogovaniDostavljac.getPorudzbine();
 
                 for(Porudzbina p: listaSvihPorudzbina){
-                    if(p.getStatus() == Status.Ceka_dostavljaca){
+                    if(p.getStatus() == StatusPorudzbine.Ceka_dostavljaca){
                         listaVidljivihPorudzbina.add(p);
                     }
                 }
@@ -141,7 +141,7 @@ public class PorudzbinaRestController {
                     return new ResponseEntity("Restoran ne radi", HttpStatus.FORBIDDEN);
                 }else{
                     Porudzbina kreiranaPorudzbina = new Porudzbina();
-                    kreiranaPorudzbina.setStatus(Status.Kreira_se);
+                    kreiranaPorudzbina.setStatus(StatusPorudzbine.U_pripremi);
                     kreiranaPorudzbina.setKupac(ulogovaniKupac);
                     porudzbinaService.save(kreiranaPorudzbina);
                     return ResponseEntity.ok("Porudzbina je kreirana!\n");
@@ -169,7 +169,7 @@ public class PorudzbinaRestController {
         }else{
             if(ulogovaniKorisnik.getUloga() == Uloga.Kupac){
                 Kupac ulogovaniKupac = (Kupac) session.getAttribute("korisnik");
-                Porudzbina korpa = porudzbinaService.findFirstbyStatus(Status.Kreira_se, ulogovaniKupac.getId());
+                Porudzbina korpa = porudzbinaService.findFirstbyStatus(StatusPorudzbine.U_pripremi, ulogovaniKupac.getId());
                 korpa.setUkCena(korpa.izracunajCenu());
 
                 List<PregledStavkePorudzbineDto> listaP = new ArrayList<>();
@@ -210,8 +210,8 @@ public class PorudzbinaRestController {
         }else{
             if(ulogovaniKorisnik.getUloga() == Uloga.Kupac){
                 Kupac ulogovaniKupac = (Kupac) session.getAttribute("korisnik");
-                Porudzbina korpa = porudzbinaService.findFirstbyStatus(Status.Kreira_se, ulogovaniKupac.getId());
-                korpa.setStatus(Status.Obrada);
+                Porudzbina korpa = porudzbinaService.findFirstbyStatus(StatusPorudzbine.U_pripremi, ulogovaniKupac.getId());
+                korpa.setStatus(StatusPorudzbine.Obrada);
                 korpa.setUkCena(korpa.izracunajCenu());
 
                 Restoran trazeniRestoran = restoranService.findOneById(idRestorana);

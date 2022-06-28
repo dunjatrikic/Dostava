@@ -1,15 +1,18 @@
 package ftn.projekat.dostava.entity;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Dostavljac extends Korisnik implements Serializable {
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "porudzbina",referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "porudzbina_id",referencedColumnName = "id")
     private Set<Porudzbina> porudzbine = new HashSet<>();
 
     public Dostavljac() {
@@ -17,12 +20,8 @@ public class Dostavljac extends Korisnik implements Serializable {
     public void dodajPorudzbinu(Porudzbina p){
         porudzbine.add(p);
     }
-    public Dostavljac(String korisnickoIme, String lozinka, String ime, String prezime) {
-        this.korisnickoIme = korisnickoIme;
-        this.lozinka = lozinka;
-        this.ime = ime;
-        this.prezime = prezime;
-
+    public Dostavljac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja) {
+        super(korisnickoIme,lozinka,ime,prezime,pol,datumRodjenja);
         setUloga(Uloga.Dostavljac);
     }
 

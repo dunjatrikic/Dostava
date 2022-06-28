@@ -29,14 +29,15 @@ public class RestoranService {
     }
 
     //pronalazenje restorana po nazivu
-    public Restoran findByNaziv(String naziv){
-        Optional<Restoran> r = restoranRepository.findByNaziv(naziv);
+   /* public Restoran findByNaziv(String naziv){
+        Optional<Restoran> r = Optional.ofNullable(restoranRepository.findByNaziv(naziv));
 
         if(r.isPresent()){
             return r.get();
         }
         return null;
-    }
+
+    }*/
 
     //pronalazenje  restorana po odredjenoj lokaciji
     public Restoran findOneByLokacija(Lokacija lokacija) {
@@ -52,6 +53,15 @@ public class RestoranService {
     //pronalazenje restorana po odredjenom id-u
     public Restoran findById(long idRestorana){
         Optional<Restoran> r = restoranRepository.findById(idRestorana);
+
+        if(r.isPresent()){
+            return r.get();
+        }
+        return null;
+    }
+
+    public Restoran findByNaziv(String naziv){
+        Optional<Restoran> r = restoranRepository.findByNaziv(naziv);
 
         if(r.isPresent()){
             return r.get();

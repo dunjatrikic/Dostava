@@ -9,12 +9,17 @@ import java.io.Serializable;
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long id;
 
-        @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+
+        @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
         @JoinColumn(name = "id_artikla", referencedColumnName = "id")
         private Artikal artikal;
 
         @Column
         private int porucenaKolicina;
+
+        @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+        @JoinColumn(name = "porudzbina_id")
+        private Porudzbina porudzbina;
 
         public StavkaPorudzbine(){}
 

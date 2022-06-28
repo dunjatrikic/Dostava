@@ -1,9 +1,10 @@
 package ftn.projekat.dostava.entity;
 
+
 import javax.persistence.*;
-import javax.swing.text.DefaultStyledDocument;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+
 
 
 @Entity
@@ -25,34 +26,32 @@ public class Korisnik implements Serializable {
     @Column(name = "prezime")
     protected String prezime;
 
+    @Column(name = "pol")
+    @Enumerated
+    protected Pol pol;
+
     @Column(name = "datumRodjenja")
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date datumRodjenja = new Date();
+    protected LocalDate datumRodjenja;
 
     @Column(name = "uloga")
+    @Enumerated
     protected Uloga uloga;
-
-    @Enumerated(EnumType.STRING)
-    protected Pol pol;
 
     public Korisnik() {
     }
 
-    public Korisnik(Long id, String korisnickoIme, String lozinka, String ime, String prezime, String pol, Date datumRodjenja) {
-        this.id = id;
+    public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja) {
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.ime = ime;
         this.prezime = prezime;
         this.datumRodjenja = datumRodjenja;
+        this.pol = pol;
+
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getKorisnickoIme() {
@@ -87,23 +86,30 @@ public class Korisnik implements Serializable {
         this.prezime = prezime;
     }
 
-    public void setPol(Pol pol) {   this.pol = pol; }
+    public Pol getPol() {
+        return pol;
+    }
 
-    public Date getDatumRodjenja() {
+    public void setPol(Pol pol) {
+        this.pol = pol;
+    }
+
+    public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
+
     public Uloga getUloga() {
+
         return uloga;
     }
 
     public void setUloga(Uloga uloga) {
         this.uloga = uloga;
     }
-
 
     @Override
     public String toString() {
@@ -118,6 +124,4 @@ public class Korisnik implements Serializable {
                 ", uloga=" + uloga +
                 '}';
     }
-
-
 }

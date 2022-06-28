@@ -18,6 +18,15 @@ public class TipKupca {
     @Column
     private int trazeniBodovi;
 
+    public TipKupca() {
+    }
+
+    public TipKupca(String ime, double popust, int trazeniBodovi) {
+        this.ime = ime;
+        this.popust = popust;
+        this.trazeniBodovi = trazeniBodovi;
+    }
+
     public long getId() {
         return id;
     }

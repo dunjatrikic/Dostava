@@ -4,7 +4,7 @@ package ftn.projekat.dostava.service;
 import ftn.projekat.dostava.entity.Kupac;
 import ftn.projekat.dostava.entity.Porudzbina;
 import ftn.projekat.dostava.entity.Restoran;
-import ftn.projekat.dostava.entity.Status;
+import ftn.projekat.dostava.entity.StatusPorudzbine;
 import ftn.projekat.dostava.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +34,12 @@ public class PorudzbinaService {
         return porudzbinaRepository.save(porudzbina);
     }
 
-    public List<Porudzbina> findAllByStatus(Status status)
+    public List<Porudzbina> findAllByStatus(StatusPorudzbine status)
     {
         return porudzbinaRepository.findAllByStatus(status);
     }
 
-    public Porudzbina findFirstbyStatus(Status status, long id)
+    public Porudzbina findFirstbyStatus(StatusPorudzbine status, long id)
     {
         return porudzbinaRepository.findByStatusAndKupacId(status, id);
     }

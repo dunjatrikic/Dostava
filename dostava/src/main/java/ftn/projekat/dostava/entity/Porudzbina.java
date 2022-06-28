@@ -21,25 +21,25 @@ public class Porudzbina implements Serializable {
     @Column(name = "ID", updatable = false, nullable = false)
     private java.util.UUID UUID;
 
-   @ManyToOne
-   private Dostavljac dostavljac;
+    @ManyToOne
+    private Dostavljac dostavljac;
 
-   @ManyToOne
-   private Kupac kupac;
+    @ManyToOne
+    private Kupac kupac;
 
-   @OneToMany(mappedBy = "porudzbina", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-   private Set<PoruceniArtikli> artikli = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<PoruceniArtikli> artikli = new HashSet<>();
 
-   @JsonIgnore
-   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-   @JoinColumn(name = "id_restorana", referencedColumnName = "id")
-   private Restoran restoranporuceno;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_restorana", referencedColumnName = "id")
+    private Restoran restoran;
 
 
-   @JsonIgnore
-   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-   @JoinColumn(name = "uuid_porudzbine", referencedColumnName = "uudi")
-   private Set<StavkaPorudzbine> stavkaPorudzbine = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "porudzbina",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //@JoinColumn(name = "uuid_porudzbine",referencedColumnName = "uuid")
+    private Set<StavkaPorudzbine> stavkaPorudzbine = new HashSet<>();
     @Column
     private double ukCena;
 
@@ -51,7 +51,7 @@ public class Porudzbina implements Serializable {
     private String kupacIme;
 
     @Column
-    private Status status;
+    private StatusPorudzbine status;
 
     public double izracunajCenu() {
         ukCena = 0;
@@ -109,11 +109,11 @@ public class Porudzbina implements Serializable {
     }
 
     public Restoran getRestoranporuceno() {
-        return restoranporuceno;
+        return restoran;
     }
 
-    public void setRestoranporuceno(Restoran restoranporuceno) {
-        this.restoranporuceno = restoranporuceno;
+    public void setRestoranporuceno(Restoran restoran) {
+        this.restoran = restoran;
     }
 
     public double getUkCena() {
@@ -140,12 +140,12 @@ public class Porudzbina implements Serializable {
         this.kupacIme = kupacIme;
     }
 
-    public Status getStatus() {
+    public StatusPorudzbine getStatus() {
         return status;
     }
 
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusPorudzbine status) {
         this.status = status;
     }
 
