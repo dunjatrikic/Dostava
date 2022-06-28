@@ -1,6 +1,7 @@
 package ftn.projekat.dostava.controller;
 
 import ftn.projekat.dostava.dto.ArtikalDto;
+import ftn.projekat.dostava.dto.RestoranPrikazDto;
 import ftn.projekat.dostava.entity.*;
 import ftn.projekat.dostava.service.ArtikalService;
 import ftn.projekat.dostava.service.MenadzerService;
@@ -8,11 +9,10 @@ import ftn.projekat.dostava.service.RestoranService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class RestoranRestController {
@@ -43,9 +43,25 @@ public class RestoranRestController {
     artikalService.save(artikal);
 
     return new ResponseEntity("Uspesno ste dodali artikal ponudu restorana",HttpStatus.OK);
-
-
 }
+    @GetMapping("/api/restorani/{id}")
+    @ResponseBody
+    public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") Long id){
+
+        Restoran restoran = restoranService.findOneById(id);
+
+        /*List<Komentar> listaKomentara = komentarServicefindAll(restoran);
+
+        List<Komentar> komentari = new ArrayList<>();
+
+        for(Komentar komentar : listaKomentara){
+            komentari.add(komentar);
+        }*/
+
+        RestoranPrikazDto prikazDto = new RestoranPrikazDto(restoran);
+
+        return ResponseEntity.ok(prikazDto);
+    }
 
     }
 

@@ -26,7 +26,7 @@ public class RestoranPrikazDto {
     }
 
 
-    public RestoranPrikazDto(Restoran restoran, List<Komentar> komentari) {
+    public RestoranPrikazDto(Restoran restoran) {
         this.nazivRestorana = restoran.getNaziv();
         this.tipRestorana = restoran.getTipRestorana();
         /*for(Artikal artikal : restoran.getArtikliUPonudi()){
@@ -40,7 +40,7 @@ public class RestoranPrikazDto {
             prosek += k.getOcena();
         }
         this.prosek = prosek / komentari.size();
-        this.komentari = komentari;
+       // this.komentari = komentari;
     }
 
     public String getNazivRestorana() {

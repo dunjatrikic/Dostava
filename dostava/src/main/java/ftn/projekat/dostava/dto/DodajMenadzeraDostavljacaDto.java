@@ -2,6 +2,10 @@ package ftn.projekat.dostava.dto;
 
 import ftn.projekat.dostava.entity.Pol;
 import ftn.projekat.dostava.entity.Uloga;
+import org.apache.tomcat.jni.Local;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class DodajMenadzeraDostavljacaDto {
     private static String ime;
@@ -16,17 +20,22 @@ public class DodajMenadzeraDostavljacaDto {
 
     private static Pol pol;
 
+    private static LocalDate datumRodjenja;
+
     public DodajMenadzeraDostavljacaDto() { }
 
     public DodajMenadzeraDostavljacaDto(String ime, String prezime,
                     String korisnickoIme, String lozinka, String uloga,
-                    String pol) {
+                    String pol,String datumRodjenja) {
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.uloga = Uloga.valueOf(uloga);
         this.pol = Pol.valueOf(pol);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate datum = LocalDate.parse(datumRodjenja, formatter);
+        this.datumRodjenja = datum;
     }
 
     public static String getIme() {
@@ -75,5 +84,13 @@ public class DodajMenadzeraDostavljacaDto {
 
     public void setPol(Pol pol) {
         this.pol = pol;
+    }
+
+    public static LocalDate getDatumRodjenja() {
+        return datumRodjenja;
+    }
+
+    public static void setDatumRodjenja(LocalDate datumRodjenja) {
+        DodajMenadzeraDostavljacaDto.datumRodjenja = datumRodjenja;
     }
 }

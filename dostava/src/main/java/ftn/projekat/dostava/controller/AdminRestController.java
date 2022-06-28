@@ -4,6 +4,7 @@ import ftn.projekat.dostava.dto.DodajMenadzeraDostavljacaDto;
 import ftn.projekat.dostava.dto.RestoranDto;
 import ftn.projekat.dostava.entity.*;
 import ftn.projekat.dostava.service.AdminService;
+import ftn.projekat.dostava.service.KorisnikService;
 import ftn.projekat.dostava.service.MenadzerService;
 import ftn.projekat.dostava.service.RestoranService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class AdminRestController {
 
+    @Autowired
+    private KorisnikService korisnikService;
     @Autowired
     private AdminService adminService;
     @Autowired
@@ -47,10 +50,10 @@ public class AdminRestController {
         if (noviMenadzer.getUloga() != Uloga.Menadzer)
             return new ResponseEntity("Izabrana uloga mora biti: Menadzer", HttpStatus.BAD_REQUEST);
 
-        if (this.adminService.getByKorisnickoIme(noviMenadzer.getKorisnickoIme()) != null)
+        if (this.korisnikService.findByKorisnickoIme(noviMenadzer.getKorisnickoIme())!= null)
             return new ResponseEntity("Korisnicko ime je vec zauzeto.", HttpStatus.BAD_REQUEST);
 
-        this.adminService.saveMenadzer(noviMenadzer);
+        this.korisnikService.save(noviMenadzer,Uloga.Menadzer);
 
         return ResponseEntity.ok("Dodavanje Menadzera: Uspesno");
 
@@ -77,10 +80,10 @@ public class AdminRestController {
         if (noviDostavljac.getUloga() != Uloga.Dostavljac)
             return new ResponseEntity("Izabrana uloga mora biti: DOSTAVLJAC", HttpStatus.BAD_REQUEST);
 
-        if (this.adminService.getByKorisnickoIme(noviDostavljac.getKorisnickoIme()) != null)
+        if ((this.korisnikService.findByKorisnickoIme(noviDostavljac.getKorisnickoIme())!= null))
             return new ResponseEntity("Korisnicko ime je vec zauzeto.", HttpStatus.BAD_REQUEST);
 
-        this.adminService.saveDostavljac(noviDostavljac);
+        this.korisnikService.save(noviDostavljac,Uloga.Dostavljac);
 
         return ResponseEntity.ok("Dodavanje Dostavljaca: Uspesno");
     }

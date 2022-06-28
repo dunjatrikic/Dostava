@@ -37,10 +37,10 @@ public class KupacService {
         noviKorisnik.setDatumRodjenja(datum);
         noviKorisnik.setTip(tip);
         noviKorisnik.setPol(pol);
+        noviKorisnik.setUloga(Uloga.Kupac);
 
 
-
-        kupacRepository.save(noviKorisnik);
+        korisnikService.save(noviKorisnik,Uloga.Kupac);
 
     }
 }

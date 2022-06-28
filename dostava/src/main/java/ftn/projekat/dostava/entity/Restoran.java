@@ -36,6 +36,7 @@ public class Restoran implements Serializable {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_lokacije",referencedColumnName = "id")
+    @JsonIgnore
     private Lokacija lokacija;
 
 
