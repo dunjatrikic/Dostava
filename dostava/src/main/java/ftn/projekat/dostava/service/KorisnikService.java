@@ -53,6 +53,7 @@ public class KorisnikService {
         return korisnikRepository.findAll();
     }
 
+
     public Korisnik findByKorisnickoIme(String userName){
         Korisnik korisnik = korisnikRepository.getBykorisnickoIme(userName);
 
@@ -60,5 +61,11 @@ public class KorisnikService {
             return null;
         }
         return korisnik;
+    }
+
+    public Korisnik findByPrezime(String prezime) {return korisnikRepository.findByPrezime(prezime);
+    }
+
+    public Korisnik findByIme(String ime) {return korisnikRepository.findByIme(ime);
     }
 }

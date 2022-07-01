@@ -1,6 +1,7 @@
 package ftn.projekat.dostava.controller;
 
 import ftn.projekat.dostava.dto.DodajMenadzeraDostavljacaDto;
+import ftn.projekat.dostava.dto.KorisnikDto;
 import ftn.projekat.dostava.dto.RestoranDto;
 import ftn.projekat.dostava.entity.*;
 import ftn.projekat.dostava.service.AdminService;
@@ -10,24 +11,24 @@ import ftn.projekat.dostava.service.RestoranService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class AdminRestController {
 
     @Autowired
-    private KorisnikService korisnikService;
+    public KorisnikService korisnikService;
     @Autowired
-    private AdminService adminService;
+    public AdminService adminService;
     @Autowired
-    private MenadzerService menadzerService;
+    public MenadzerService menadzerService;
 
     @Autowired
-    private RestoranService restoranService;
+    public RestoranService restoranService;
 
     @PostMapping("/api/admin/dodavanje-menadzera")
     public ResponseEntity<String> dodavanjeMenadzera(@RequestBody DodajMenadzeraDostavljacaDto dodajMenadzeraDostavljacaDto, HttpSession session) {
@@ -145,4 +146,87 @@ public class AdminRestController {
         restoran.setMenadzer(menadzer);
         return new ResponseEntity("Uspesno.", HttpStatus.OK);
     }
+
+    @GetMapping("/api/korisnici")
+    public ResponseEntity<List<KorisnikDto>> getKorisnici(HttpSession session){
+        Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
+
+        if (ulogovani == null)
+            return new ResponseEntity("Niste ulogovani.", HttpStatus.BAD_REQUEST);
+        if (ulogovani.getUloga() != Uloga.Admin)
+            return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
+
+        List<Korisnik> korisnici = this.korisnikService.findAll();
+
+        List<KorisnikDto> dtos = new ArrayList<>();
+        for(Korisnik k : korisnici){
+            KorisnikDto dto = new KorisnikDto(k);
+            dtos.add(dto);
+        }
+        return ResponseEntity.ok(dtos);
+
+    }
+
+    @GetMapping("/api/korisnik/{ime}")
+    public ResponseEntity<KorisnikDto> getKorisnikIme(@PathVariable(name = "ime") String ime, HttpSession session){
+        Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
+
+        if (ulogovani == null)
+            return new ResponseEntity("Niste ulogovani.", HttpStatus.BAD_REQUEST);
+        if (ulogovani.getUloga() != Uloga.Admin)
+            return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
+
+        Korisnik korisnik = this.korisnikService.findByIme(ime);
+
+        KorisnikDto dto = new KorisnikDto(korisnik);
+        if(korisnik == null){
+            return new ResponseEntity("Ne postoji korisnik sa ovim imenom.",HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return ResponseEntity.ok(dto);
+        }
+    }
+
+    @GetMapping("/api/korisnik/{prezime}")
+    public ResponseEntity<KorisnikDto> getKorisnikPrezime(@PathVariable(name = "prezime") String prezime, HttpSession session){
+        Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
+
+        if (ulogovani == null)
+            return new ResponseEntity("Niste ulogovani.", HttpStatus.BAD_REQUEST);
+        if (ulogovani.getUloga() != Uloga.Admin)
+            return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
+
+        Korisnik korisnik = this.korisnikService.findByPrezime(prezime);
+
+        KorisnikDto dto = new KorisnikDto(korisnik);
+        if(korisnik == null){
+            return new ResponseEntity("Ne postoji korisnik sa ovim prezimenom.",HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return ResponseEntity.ok(dto);
+        }
+    }
+
+    @GetMapping("/api/korisnik/{korisnickoIme}")
+    public ResponseEntity<KorisnikDto> getKorisnik(@PathVariable(name = "korisnickoIme") String korisnickoIme, HttpSession session){
+        Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
+
+        if (ulogovani == null)
+            return new ResponseEntity("Niste ulogovani.", HttpStatus.BAD_REQUEST);
+        if (ulogovani.getUloga() != Uloga.Admin)
+            return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
+
+        Korisnik korisnik = this.korisnikService.findByKorisnickoIme(korisnickoIme);
+
+        KorisnikDto dto = new KorisnikDto(korisnik);
+        if(korisnik == null){
+            return new ResponseEntity("Ne postoji korisnik sa ovim korisnickim imenom.",HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return ResponseEntity.ok(dto);
+        }
+    }
+
+
+
 }

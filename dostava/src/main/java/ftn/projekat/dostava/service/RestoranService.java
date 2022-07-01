@@ -16,8 +16,8 @@ public class RestoranService {
     @Autowired
     private RestoranRepository restoranRepository;
 
-    @Autowired
-    private  ArtikalService artikalService;
+   // @Autowired
+    public  ArtikalService artikalService;
 
     public Restoran save(Restoran restoran){
         return this.restoranRepository.save(restoran);
@@ -96,7 +96,7 @@ public class RestoranService {
 
     public Artikal saveArtikal(Artikal artikal){  return  this.artikalService.save(artikal);  }
 
-    public void deleteArtikal(Artikal artikal){  artikalService.delete(artikal); }
+    //public void deleteArtikal(Artikal artikal){  artikalService.delete(artikal); }
 
 
 

@@ -104,6 +104,14 @@ public class Artikal implements Serializable {
         this.opis = opis;
     }
 
+    public Restoran getRestoran() {
+        return restoran;
+    }
+
+    public void setRestoran(Restoran restoran) {
+        this.restoran = restoran;
+    }
+
     @Override
     public String toString() {
         return "Artikal{" +

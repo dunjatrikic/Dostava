@@ -12,10 +12,10 @@ import java.util.Optional;
 @Service
 public class MenadzerService {
     @Autowired
-    private MenadzerRepository menadzerRepository;
+    public MenadzerRepository menadzerRepository;
 
     @Autowired
-    private RestoranService restoranService;
+    public RestoranService restoranService;
 
     public Menadzer save(Menadzer menadzer){
         return this.menadzerRepository.save(menadzer);

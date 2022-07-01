@@ -10,22 +10,22 @@ import java.util.List;
 @Service
 public class AdminService {
     @Autowired
-    private AdminRepository adminRepository;
+    public AdminRepository adminRepository;
 
     @Autowired
-    private  MenadzerService menadzerService;
+    public  MenadzerService menadzerService;
 
     @Autowired
-    private DostavljacService dostavljacService;
+    public DostavljacService dostavljacService;
 
     @Autowired
-    private  RestoranService restoranService;
+    public  RestoranService restoranService;
 
     @Autowired
-    private KorisnikService korisnikService;
+    public KorisnikService korisnikService;
 
     @Autowired
-    private  LokacijaService lokacijaService;
+    public  LokacijaService lokacijaService;
 
     public Menadzer saveMenadzer(Menadzer noviMenadzer){
         return this.menadzerService.save(noviMenadzer);
@@ -47,10 +47,14 @@ public class AdminService {
         return  this.korisnikService.findByKorisnickoIme(userName);
     }
 
+    public Korisnik getByPrezime(String prezime){
+        return this.korisnikService.findByPrezime(prezime);}
+
     public Restoran getByLokacija(Lokacija lokacija){
         return  this.restoranService.findOneByLokacija(lokacija);
     }
 
+    public Korisnik  getByIme(String ime){ return this.korisnikService.findByIme(ime);}
     public Lokacija getLokacijaById(Long id){
         return  this.lokacijaService.getLokacijaById(id);
     }
