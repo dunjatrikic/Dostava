@@ -168,6 +168,7 @@ public class AdminRestController {
     }
 
     @GetMapping("/api/korisnik/{ime}")
+    @ResponseBody
     public ResponseEntity<KorisnikDto> getKorisnikIme(@PathVariable(name = "ime") String ime, HttpSession session){
         Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
 

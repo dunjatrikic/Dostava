@@ -120,7 +120,7 @@ public class PorudzbinaRestController {
 
     //4. Kupac kreira porudzbinu
     @GetMapping("/api/kreiranje-porudzbine/{id}")
-    public ResponseEntity<String> kreiranjePorudzbine(@PathVariable(name = "id") long idRestorana, HttpSession session){
+    public ResponseEntity<String> kreiranjePorudzbine(@PathVariable(name = "id") Long idRestorana, HttpSession session){
         Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if(ulogovaniKorisnik == null){
@@ -200,7 +200,7 @@ public class PorudzbinaRestController {
 
     //Porucivanje
     @PutMapping("/api/poruci/{id}")
-    public ResponseEntity<String> porucivanje(@PathVariable(name = "id") long idRestorana, HttpSession session){
+    public ResponseEntity<String> porucivanje(@PathVariable(name = "id") Long idRestorana, HttpSession session){
         Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if(ulogovaniKorisnik == null){

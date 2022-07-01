@@ -7,22 +7,19 @@ import java.time.format.DateTimeFormatter;
 
 public class UpdateDto {
 
-    String korisnickoIme;
-    String ime;
-    String prezime;
-    String lozinka;
-    Pol pol;
-    LocalDate datumRodjenja;
+   private  String korisnickoIme;
+   private  String ime;
+   private String prezime;
+   private String lozinka;
+    private String pol;
+   private String datumRodjenja;
 
-    public UpdateDto(String korisnickoIme, String ime, String prezime, String lozinka, String polKorisnika, String datumRodjenja) {
+    public UpdateDto(String korisnickoIme, String ime, String prezime, String lozinka, String pol, String datum) {
         this.korisnickoIme = korisnickoIme;
         this.ime = ime;
         this.prezime = prezime;
         this.lozinka = lozinka;
-        Pol pol = Pol.valueOf(polKorisnika);
         this.pol = pol;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate datum = LocalDate.parse(datumRodjenja, formatter);
         this.datumRodjenja = datum;
     }
 
@@ -58,19 +55,19 @@ public class UpdateDto {
         this.lozinka = lozinka;
     }
 
-    public Pol getPol() {
+    public String getPol() {
         return pol;
     }
 
-    public void setPol(Pol pol) {
+    public void setPol(String pol) {
         this.pol = pol;
     }
 
-    public LocalDate getDatumRodjenja() {
+    public String getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(LocalDate datumRodjenja) {
+    public void setDatumRodjenja(String datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 }

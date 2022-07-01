@@ -5,6 +5,7 @@ package ftn.projekat.dostava.controller;
         import ftn.projekat.dostava.dto.RegistrationDto;
         import ftn.projekat.dostava.dto.UpdateDto;
         import ftn.projekat.dostava.entity.Korisnik;
+        import ftn.projekat.dostava.entity.Pol;
         import ftn.projekat.dostava.service.KorisnikService;
         import ftn.projekat.dostava.service.KupacService;
         import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ package ftn.projekat.dostava.controller;
         import org.springframework.web.bind.annotation.*;
 
         import javax.servlet.http.HttpSession;
+        import java.time.LocalDate;
+        import java.time.format.DateTimeFormatter;
 
 @RestController
 
@@ -69,8 +72,12 @@ public class KorisnikRestController {
     }
 
     @PutMapping("/api/korisnici/ulogovanKorisnik/update")
-    public ResponseEntity updateProfile(HttpSession session,@RequestBody UpdateDto updateDto){
+    public ResponseEntity updateProfile(@RequestBody UpdateDto updateDto,HttpSession session){
         Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
+
+        Pol pol = Pol.valueOf(updateDto.getPol());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate datum = LocalDate.parse(updateDto.getDatumRodjenja(), formatter);
 
         if(updateDto.getKorisnickoIme() != null)
             korisnik.setKorisnickoIme(updateDto.getKorisnickoIme());
@@ -81,10 +88,12 @@ public class KorisnikRestController {
         if(updateDto.getPrezime() != null)
             korisnik.setPrezime(updateDto.getPrezime( ));
         if(updateDto.getPol() != null)
-            korisnik.setPol(updateDto.getPol());
+            korisnik.setPol(pol);
         if(updateDto.getDatumRodjenja() != null)
-            korisnik.setDatumRodjenja(updateDto.getDatumRodjenja());
+            korisnik.setDatumRodjenja(datum);
+        korisnikService.save(korisnik, korisnik.getUloga());
 
-        return new ResponseEntity(korisnikService.save(korisnik, korisnik.getUloga()), HttpStatus.OK);
+        return new ResponseEntity("Uspesne izmene.", HttpStatus.OK);
     }
+
 }

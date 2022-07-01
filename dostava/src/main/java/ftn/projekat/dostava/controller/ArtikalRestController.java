@@ -74,10 +74,11 @@ public class ArtikalRestController {
             return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
 
 
-        Menadzer menadzer = (Menadzer) session.getAttribute("korisnik");
-        Restoran restoran = menadzer.getZaduzenRestoran();
+        /*Menadzer menadzer = (Menadzer) session.getAttribute("korisnik");
+        Restoran restoran = menadzer.getZaduzenRestoran();*/
+        Artikal artikal = artikalService.findById(id);
 
-       artikalService.delete(id,restoran);
+       artikalService.delete(artikal);
 
         return ResponseEntity.ok("Artikal uspesno obrisan!");
     }

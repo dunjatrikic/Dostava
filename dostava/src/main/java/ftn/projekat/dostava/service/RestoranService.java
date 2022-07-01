@@ -16,6 +16,9 @@ public class RestoranService {
     @Autowired
     private RestoranRepository restoranRepository;
 
+    @Autowired
+    private KomentarService komentarService;
+
    // @Autowired
     public  ArtikalService artikalService;
 
@@ -29,7 +32,7 @@ public class RestoranService {
     }
 
     //pronalazenje restorana po nazivu
-   /* public Restoran findByNaziv(String naziv){
+   /*public Restoran findByNaziv(String naziv){
         Optional<Restoran> r = Optional.ofNullable(restoranRepository.findByNaziv(naziv));
 
         if(r.isPresent()){
@@ -60,7 +63,7 @@ public class RestoranService {
         return null;
     }
 
-    public Restoran findByNaziv(String naziv){
+    public Restoran getByNaziv(String naziv){
         Optional<Restoran> r = restoranRepository.findByNaziv(naziv);
 
         if(r.isPresent()){
@@ -93,10 +96,14 @@ public class RestoranService {
         return null;
     }
 
+    public List<Komentar> findAllComments(Restoran restoran){
+
+        return this.komentarService.findAll(restoran);
+    }
 
     public Artikal saveArtikal(Artikal artikal){  return  this.artikalService.save(artikal);  }
 
-    //public void deleteArtikal(Artikal artikal){  artikalService.delete(artikal); }
+    public void deleteArtikal(Artikal artikal){  artikalService.delete(artikal); }
 
 
 

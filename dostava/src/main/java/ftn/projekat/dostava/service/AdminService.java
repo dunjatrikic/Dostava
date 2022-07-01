@@ -60,7 +60,7 @@ public class AdminService {
     }
 
     public Restoran getRestoranByNaziv(String naziv){
-        return  this.restoranService.findByNaziv(naziv);
+        return  this.restoranService.getByNaziv(naziv);
     }
 
 }
