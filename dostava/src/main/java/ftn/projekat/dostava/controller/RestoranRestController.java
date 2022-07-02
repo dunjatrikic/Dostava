@@ -24,22 +24,23 @@ public class RestoranRestController {
     @Autowired
     private RestoranService restoranService;
 
+    @Autowired
+    private KomentarService komentarService;
 
 
-
-    @GetMapping("/api/restorani")
-    public ResponseEntity<List<PretragaDto>> getRestorani(HttpSession session){
+    @GetMapping("/api/svi-restorani")
+    public ResponseEntity<List<PretragaDto>> getRestorani(HttpSession session) {
 
         Korisnik uk = (Korisnik) session.getAttribute("korisnik");
 
-        if(uk == null) {
+        if (uk == null) {
             return new ResponseEntity("Niste ulogovani.", HttpStatus.BAD_REQUEST);
         }
 
         List<Restoran> restorani = this.restoranService.findAll();
 
         List<PretragaDto> dtos = new ArrayList<>();
-        for(Restoran restoran : restorani){
+        for (Restoran restoran : restorani) {
             PretragaDto dto = new PretragaDto(restoran);
             dtos.add(dto);
         }
@@ -48,9 +49,10 @@ public class RestoranRestController {
 
     }
 
-    @GetMapping("/api/pretraga/naziv/{naziv}")
-    public ResponseEntity<RestoranPrikazDto> getRestoranByNaziv(@PathVariable(name = "naziv") String naziv){
+    @GetMapping("/api/restoran/pretraga/naziv/{naziv}")
+    public ResponseEntity<RestoranPrikazDto> getRestoranByNaziv(@PathVariable(name = "naziv") String naziv, HttpSession session) {
 
+        Korisnik uk = (Korisnik) session.getAttribute("korisnik");
 
         Restoran restoran = restoranService.getByNaziv(naziv);
 
@@ -64,7 +66,7 @@ public class RestoranRestController {
 
         Set<ArtikalPrikazDto> artikliPrikaza = new HashSet<ArtikalPrikazDto>();
 
-        for(Komentar komentar : komentariRestorana){
+        for (Komentar komentar : komentariRestorana) {
             KomentarPrikazDto dto = new KomentarPrikazDto(komentar);
             komentariZaPrikaz.add(dto);
         }
@@ -77,17 +79,17 @@ public class RestoranRestController {
         prikazDto.setKomentari(komentariRestorana);
 
         double prosecnaOcena = 0;
-        for(Komentar komentar :  komentariRestorana){
+        for (Komentar komentar : komentariRestorana) {
             prosecnaOcena += komentar.getOcena();
         }
 
-        if(komentariRestorana.size() > 0) {
+        if (komentariRestorana.size() > 0) {
             prosecnaOcena = prosecnaOcena / komentariRestorana.size();
         }
 
         prikazDto.setProsek(prosecnaOcena);
 
-        for(Artikal artikal : artikliRestorana){
+        for (Artikal artikal : artikliRestorana) {
             ArtikalPrikazDto dto = new ArtikalPrikazDto(artikal);
             artikliPrikaza.add(dto);
         }
@@ -98,5 +100,57 @@ public class RestoranRestController {
         return ResponseEntity.ok(prikazDto);
     }
 
+
+    @GetMapping("/api/pretraga/restoran/{id}")
+    public ResponseEntity<RestoranPrikazDto> izborRestorana(@PathVariable(name = "id") long id, HttpSession session) {
+
+        Korisnik uk = (Korisnik) session.getAttribute("korisnik");
+
+        Restoran restoran = restoranService.findOneById(id);
+
+        List<Komentar> komentariRestorana = restoranService.findAllComments(restoran);
+
+        List<KomentarPrikazDto> komentariZaPrikaz = new ArrayList<>();
+
+
+        Set<Artikal> artikliRestorana = new HashSet<Artikal>();
+        artikliRestorana = restoran.getArtikli();
+
+        Set<ArtikalPrikazDto> artikliPrikaza = new HashSet<ArtikalPrikazDto>();
+
+        for (Komentar komentar : komentariRestorana) {
+            KomentarPrikazDto dto = new KomentarPrikazDto(komentar);
+            komentariZaPrikaz.add(dto);
+        }
+
+        RestoranPrikazDto prikazDto = new RestoranPrikazDto();
+
+        prikazDto.setNazivRestorana(restoran.getNaziv());
+        prikazDto.setLokacija(restoran.getLokacija());
+        prikazDto.setTipRestorana(restoran.getTipRestorana());
+        prikazDto.setKomentari(komentariRestorana);
+
+        double prosecnaOcena = 0;
+        for (Komentar komentar : komentariRestorana) {
+            prosecnaOcena += komentar.getOcena();
+        }
+
+        if (komentariRestorana.size() > 0) {
+            prosecnaOcena = prosecnaOcena / komentariRestorana.size();
+        }
+
+        prikazDto.setProsek(prosecnaOcena);
+
+        for (Artikal artikal : artikliRestorana) {
+            ArtikalPrikazDto dto = new ArtikalPrikazDto(artikal);
+            artikliPrikaza.add(dto);
+        }
+
+        prikazDto.setArtikliUPonudi(artikliPrikaza);
+        prikazDto.setStatusRestorana(restoran.getStatusRestorana());
+
+        return ResponseEntity.ok(prikazDto);
     }
+
+}
 

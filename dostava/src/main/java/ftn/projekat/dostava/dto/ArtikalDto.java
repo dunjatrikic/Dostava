@@ -6,26 +6,26 @@ public class ArtikalDto {
 
     private String naziv;
 
-    private float cena;
+    private String cena;
 
     private String tipArtikla;
 
     private String opis;
 
-    private int kolicina;
+    private String kolicina;
 
     public ArtikalDto() {
     }
 
-    public ArtikalDto(String naziv, float cena, String tipArtikla) {
+    public ArtikalDto(String naziv, String cena, String tipArtikla) {
         this.naziv = naziv;
         this.cena = cena;
         this.tipArtikla = tipArtikla;
         this.opis = "";
-        this.kolicina = 0;
+        this.kolicina = "";
     }
 
-    public ArtikalDto(String naziv, float cena, String tipArtikla, String opis, int kolicina) {
+    public ArtikalDto(String naziv, String cena, String tipArtikla, String opis, String kolicina) {
         this.naziv = naziv;
         this.cena = cena;
         this.tipArtikla = tipArtikla;
@@ -41,11 +41,11 @@ public class ArtikalDto {
         this.naziv = naziv;
     }
 
-    public float getCena() {
+    public String getCena() {
         return cena;
     }
 
-    public void setCena(float cena) {
+    public void setCena(String cena) {
         this.cena = cena;
     }
 
@@ -65,11 +65,11 @@ public class ArtikalDto {
         this.opis = opis;
     }
 
-    public int getKolicina() {
+    public String getKolicina() {
         return kolicina;
     }
 
-    public void setKolicina(int kolicina) {
+    public void setKolicina(String kolicina) {
         this.kolicina = kolicina;
     }
 

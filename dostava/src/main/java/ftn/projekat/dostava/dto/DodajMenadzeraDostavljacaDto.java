@@ -8,19 +8,19 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DodajMenadzeraDostavljacaDto {
-    private static String ime;
+    private  String ime;
 
-    private static String prezime;
+    private String prezime;
 
-    private static String korisnickoIme;
+    private String korisnickoIme;
 
-    private static String lozinka;
+    private  String lozinka;
 
-    private static Uloga uloga;
+    private String uloga;
 
-    private static Pol pol;
+    private  String pol;
 
-    private static LocalDate datumRodjenja;
+    private  String datumRodjenja;
 
     public DodajMenadzeraDostavljacaDto() { }
 
@@ -31,34 +31,32 @@ public class DodajMenadzeraDostavljacaDto {
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
-        this.uloga = Uloga.valueOf(uloga);
-        this.pol = Pol.valueOf(pol);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate datum = LocalDate.parse(datumRodjenja, formatter);
-        this.datumRodjenja = datum;
+        this.uloga = uloga;
+        this.pol = pol;
+        this.datumRodjenja = datumRodjenja;
     }
 
-    public static String getIme() {
+    public  String getIme() {
         return ime;
     }
 
-    public static String getPrezime(){
+    public String getPrezime(){
         return prezime;
     }
 
-    public static String getKorisnickoIme() {
+    public  String getKorisnickoIme() {
         return korisnickoIme;
     }
 
-    public static String getLozinka() {
+    public String getLozinka() {
         return lozinka;
     }
 
-    public static Uloga getUloga() {
+    public  String getUloga() {
         return uloga;
     }
 
-    public static Pol getPol() {
+    public  String getPol() {
         return pol;
     }
 
@@ -78,19 +76,19 @@ public class DodajMenadzeraDostavljacaDto {
         this.lozinka = lozinka;
     }
 
-    public void setUloga(Uloga uloga) {
+    public void setUloga(String uloga) {
         this.uloga = uloga;
     }
 
-    public void setPol(Pol pol) {
+    public void setPol(String pol) {
         this.pol = pol;
     }
 
-    public static LocalDate getDatumRodjenja() {
+    public  String getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public static void setDatumRodjenja(LocalDate datumRodjenja) {
-        DodajMenadzeraDostavljacaDto.datumRodjenja = datumRodjenja;
+    public  void setDatumRodjenja(String datumRodjenja) {
+        this.datumRodjenja = datumRodjenja;
     }
 }

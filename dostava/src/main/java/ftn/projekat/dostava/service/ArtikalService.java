@@ -45,20 +45,32 @@ public class ArtikalService {
     public void update(Long id, ArtikalDto artikalDto, Menadzer menadzer){
         Artikal artikal = this.findById(id);
 
+        double kolicina = 0;
+        if( artikalDto.getKolicina() != null && !artikalDto.getKolicina().isEmpty()){
+            kolicina = Double.parseDouble(artikalDto.getKolicina());
+        }
+
+        double cena = 0;
+        if(artikalDto.getCena()!= null && !artikalDto.getCena().isEmpty()){
+            cena = Double.parseDouble(artikalDto.getCena());
+        }
+
+
+
         menadzer.getZaduzenRestoran().getArtikli().remove(artikal);
 
         if(!artikalDto.getNaziv().isEmpty()){
             artikal.setNaziv(artikalDto.getNaziv());
         }
-        if(artikalDto.getCena() > 0){
-            artikal.setCena(artikalDto.getCena());
+        if(cena > 0){
+            artikal.setCena(cena);
         }
         if(artikalDto.getTipArtikla() != null){
             TipArtikla tip = TipArtikla.valueOf(artikalDto.getTipArtikla());
             artikal.setTip(tip);
         }
-        if(artikalDto.getKolicina() > 0){
-            artikal.setKolicina(artikalDto.getKolicina());
+        if(kolicina > 0){
+            artikal.setKolicina(kolicina);
         }
         if(!artikalDto.getOpis().isEmpty()){
             artikal.setOpis(artikalDto.getOpis());

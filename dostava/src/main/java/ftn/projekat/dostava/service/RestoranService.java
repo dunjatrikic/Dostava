@@ -72,7 +72,7 @@ public class RestoranService {
         return null;
     }
 
-    public Artikal findArtikalById(long idArtikla){
+    public Artikal findArtikalById(Long idArtikla){
         return this.artikalService.findById(idArtikla);
     }
 

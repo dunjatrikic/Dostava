@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 @RestController
 public class ArtikalRestController {
@@ -26,6 +27,8 @@ public class ArtikalRestController {
     @Autowired
     private RestoranService restoranService;
 
+
+
     @PostMapping("/api/dodajArtikal")
     public ResponseEntity<String> dodavanjeArtikla(@RequestBody ArtikalDto artikalDto, HttpSession session) {
         Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
@@ -35,12 +38,26 @@ public class ArtikalRestController {
         if (ulogovani.getUloga() != Uloga.Menadzer)
             return new ResponseEntity("Funkcionalnost je dostupna samo menadzerima aplikacije", HttpStatus.BAD_REQUEST);
 
+
         Menadzer menadzer = menadzerService.findByKorisnickoIme(ulogovani.getKorisnickoIme());
+
+            double kolicina = 0;
+            if( artikalDto.getKolicina() != null && !artikalDto.getKolicina().isEmpty()){
+                kolicina = Double.parseDouble(artikalDto.getKolicina());
+            }
+
+            double cena = 0;
+            if(artikalDto.getCena()!= null && !artikalDto.getCena().isEmpty()){
+                cena = Double.parseDouble(artikalDto.getCena());
+            }
+
+
         TipArtikla tipArtikla = TipArtikla.valueOf(artikalDto.getTipArtikla());
-        Artikal artikal = new Artikal(artikalDto.getNaziv(),artikalDto.getCena(),tipArtikla,artikalDto.getKolicina(),artikalDto.getOpis());
+        Artikal artikal = new Artikal(artikalDto.getNaziv(),cena,tipArtikla,kolicina,artikalDto.getOpis());
 
         Restoran restoran = restoranService.findById(menadzer.getZaduzenRestoran().getId());
-        menadzer.getZaduzenRestoran().getArtikli().add(artikal);
+
+        restoran.getArtikli().add(artikal);
         artikalService.save(artikal);
 
         return new ResponseEntity("Uspesno ste dodali artikal ponudu restorana",HttpStatus.OK);
@@ -54,6 +71,7 @@ public class ArtikalRestController {
             return new ResponseEntity("Niste ulogovani.", HttpStatus.BAD_REQUEST);
         if (ulogovani.getUloga() != Uloga.Menadzer)
             return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
+
 
 
 
@@ -74,11 +92,16 @@ public class ArtikalRestController {
             return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
 
 
-        /*Menadzer menadzer = (Menadzer) session.getAttribute("korisnik");
-        Restoran restoran = menadzer.getZaduzenRestoran();*/
+        Menadzer menadzer = (Menadzer) session.getAttribute("korisnik");
+        Restoran restoran = menadzer.getZaduzenRestoran();
         Artikal artikal = artikalService.findById(id);
+        if(restoran.getId() != artikal.getRestoran().getId()) {
+            return new ResponseEntity("Nije vam dozvoljeno da izbrisete ovaj artikal.", HttpStatus.BAD_REQUEST);
+        }
+        else{
 
-       artikalService.delete(artikal);
+        artikalService.delete(artikal);
+        }
 
         return ResponseEntity.ok("Artikal uspesno obrisan!");
     }
