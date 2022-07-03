@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class KupacService {
@@ -42,5 +43,9 @@ public class KupacService {
 
         korisnikService.save(noviKorisnik,Uloga.Kupac);
 
+    }
+
+    public List<Kupac> findAll(){
+        return kupacRepository.findAll();
     }
 }

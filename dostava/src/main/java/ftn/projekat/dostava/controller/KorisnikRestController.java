@@ -1,13 +1,8 @@
 package ftn.projekat.dostava.controller;
 
-        import ftn.projekat.dostava.dto.KorisnikDto;
-        import ftn.projekat.dostava.dto.LoginDto;
-        import ftn.projekat.dostava.dto.RegistrationDto;
-        import ftn.projekat.dostava.dto.UpdateDto;
-        import ftn.projekat.dostava.entity.Korisnik;
-        import ftn.projekat.dostava.entity.Pol;
-        import ftn.projekat.dostava.service.KorisnikService;
-        import ftn.projekat.dostava.service.KupacService;
+        import ftn.projekat.dostava.dto.*;
+        import ftn.projekat.dostava.entity.*;
+        import ftn.projekat.dostava.service.*;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.http.HttpStatus;
         import org.springframework.http.ResponseEntity;
@@ -16,6 +11,7 @@ package ftn.projekat.dostava.controller;
         import javax.servlet.http.HttpSession;
         import java.time.LocalDate;
         import java.time.format.DateTimeFormatter;
+        import java.util.List;
 
 @RestController
 
@@ -23,7 +19,18 @@ public class KorisnikRestController {
     @Autowired
     private KorisnikService korisnikService;
     @Autowired
+    private PorudzbinaService porudzbinaService;
+    @Autowired
     private KupacService kupacService;
+
+    @Autowired
+    private MenadzerService menadzerService;
+
+    @Autowired
+    private DostavljacService dostavljacService;
+
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/api/")
     public String welcome()
@@ -95,5 +102,69 @@ public class KorisnikRestController {
 
         return new ResponseEntity("Uspesne izmene.", HttpStatus.OK);
     }
+
+    @GetMapping("/api/menadzer-pregled")
+    public ResponseEntity<PregledMenadzerDto> prikaziPregledMenadzera(HttpSession session){
+        Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if(ulogovaniKorisnik == null){
+            return new ResponseEntity(
+                    "Korisnik nije pronadjen",
+                    HttpStatus.NOT_FOUND);
+        }else{
+            if(ulogovaniKorisnik.getUloga() == Uloga.Menadzer){
+                Menadzer ulogovanMenadzer = (Menadzer) session.getAttribute("korisnik");
+                PregledMenadzerDto pregledDto = new PregledMenadzerDto();
+
+                pregledDto.setRestoran(ulogovanMenadzer.getZaduzenRestoran());
+
+                List<Porudzbina> porudzbineRestorana = porudzbinaService.findAllByRestoran(ulogovanMenadzer.getZaduzenRestoran());
+                pregledDto.setPorudzbineRestorana(porudzbineRestorana);
+
+                return ResponseEntity.ok(pregledDto);
+            }
+            else{
+                return new ResponseEntity(
+                        "Funkcionalnost je dozvoljena samo MENADZERIMA.",
+                        HttpStatus.UNAUTHORIZED);
+            }
+        }
+    }
+
+    @GetMapping("/api/admin-pregled")
+    public ResponseEntity<PregledAdminDto> prikaziPregledAdmina(HttpSession session){
+        Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if(ulogovaniKorisnik == null){
+            return new ResponseEntity(
+                    "Korisnik nije ulogovan",
+                    HttpStatus.NOT_FOUND);
+        }else{
+            if(ulogovaniKorisnik.getUloga() == Uloga.Admin){
+                Admin ulogovaniAdmin = (Admin) session.getAttribute("korisnik");
+                PregledAdminDto pregledDto = new PregledAdminDto();
+
+                List<Menadzer> menadzeriMedjuKorisnicima = menadzerService.findAll();
+                pregledDto.setListaMenadzera(menadzeriMedjuKorisnicima);
+
+                List<Dostavljac> dostavljaciMedjuKorisnicima = dostavljacService.findAll();
+                pregledDto.setListaDostavljaca(dostavljaciMedjuKorisnicima);
+
+                List<Kupac> kupciMedjuKorisnicima = kupacService.findAll();
+                pregledDto.setListaKupaca(kupciMedjuKorisnicima);
+
+
+
+                List<Admin> adminiMedjuKorisnicima = adminService.findAll();
+                pregledDto.setListaAdmina(adminiMedjuKorisnicima);
+
+                return ResponseEntity.ok(pregledDto);
+            }
+            else{
+                return new ResponseEntity("Funkcionalnost je dozvoljena samo ADMINIMA.", HttpStatus.UNAUTHORIZED);
+            }
+        }
+    }
+
 
 }

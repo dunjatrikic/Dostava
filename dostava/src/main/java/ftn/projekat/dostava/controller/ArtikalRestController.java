@@ -82,28 +82,51 @@ public class ArtikalRestController {
         return ResponseEntity.ok("Uspesno updated!");
     }
 
-    @DeleteMapping("/api/artikli/deleteArtikal/{id}")
-    public ResponseEntity deleteArtikal(@PathVariable(name = "id") Long id, HttpSession session){
+    /*@DeleteMapping("/api/deleteArtikal/{id}")
+    public ResponseEntity deleteArtikal(@PathVariable(name = "id") Long id, HttpSession session) {
         Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
 
         if (ulogovani == null)
             return new ResponseEntity("Niste ulogovani.", HttpStatus.BAD_REQUEST);
         if (ulogovani.getUloga() != Uloga.Menadzer)
-            return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Funkcionalnost je dostupna samo menadzerima aplikacije", HttpStatus.BAD_REQUEST);
 
+
+        Menadzer menadzer = (Menadzer) ulogovani;
+        Restoran restoran = menadzer.getZaduzenRestoran();
+
+
+
+        for (Artikal artikal : restoran.getArtikli()) {
+
+            if (artikal.getId() == id) {
+                restoran.getArtikli().remove(artikal);
+                this.restoranService.save(restoran);
+                this.restoranService.deleteArtikal(artikal);
+                return ResponseEntity.ok("Uspesno obrisan artikal!");
+            }
+        }
+        return ResponseEntity.ok("Nepostojeci artikal!");
+    }*/
+
+    @DeleteMapping("/api/artikli/deleteArtikal/{id}")
+    public ResponseEntity deleteArtikal(@PathVariable(name = "id") Long id, HttpSession session){
+
+        Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
+
+        if (ulogovani == null)
+            return new ResponseEntity("Niste ulogovani.", HttpStatus.BAD_REQUEST);
+        if (ulogovani.getUloga() != Uloga.Menadzer)
+            return new ResponseEntity("Funkcionalnost je dostupna samo menadzerima aplikacije", HttpStatus.BAD_REQUEST);
 
         Menadzer menadzer = (Menadzer) session.getAttribute("korisnik");
         Restoran restoran = menadzer.getZaduzenRestoran();
-        Artikal artikal = artikalService.findById(id);
-        if(restoran.getId() != artikal.getRestoran().getId()) {
-            return new ResponseEntity("Nije vam dozvoljeno da izbrisete ovaj artikal.", HttpStatus.BAD_REQUEST);
-        }
-        else{
 
-        artikalService.delete(artikal);
+        if(!artikalService.deleteArtikal(id, restoran)){
+            return ResponseEntity.badRequest().body("Neuspesno.");
         }
 
-        return ResponseEntity.ok("Artikal uspesno obrisan!");
+        return ResponseEntity.ok("Artikal je uspesno izbrisan");
     }
 
 }

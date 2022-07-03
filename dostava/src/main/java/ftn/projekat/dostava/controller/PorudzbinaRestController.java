@@ -31,7 +31,7 @@ public class PorudzbinaRestController {
    @Autowired
     KupacService kupacService;
 
-    //1. Kupac pregleda porudzbine
+
    @GetMapping("/api/pregled-porudzbina-kupac")
     public ResponseEntity<List<Porudzbina>> pregledPorudzbina(HttpSession session)
    {
@@ -57,7 +57,7 @@ public class PorudzbinaRestController {
    }
 
 
-   //3. Menadzer pregleda porudzbine restorana za koji je zaduzen
+
     @GetMapping("/api/menadzer-pregled-porudzbina")
    public ResponseEntity<List<Porudzbina>> pregledPorudzbinaMenadzerovogRestorana(HttpSession session){
        Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
@@ -81,7 +81,7 @@ public class PorudzbinaRestController {
        }
    }
 
-    //2. Dostavljac pregleda porudzbine koje su u statusu "Ceka dostavljaca"
+
     @GetMapping("/api/dostavljac-pregled-porudzbina")
     public ResponseEntity<List<Porudzbina>> pregledPorudzbinaDostavljaca(HttpSession session){
         Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
@@ -118,7 +118,7 @@ public class PorudzbinaRestController {
     }
 
 
-    //4. Kupac kreira porudzbinu
+
     @GetMapping("/api/kreiranje-porudzbine/{id}")
     public ResponseEntity<String> kreiranjePorudzbine(@PathVariable(name = "id") Long idRestorana, HttpSession session){
         Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
@@ -157,7 +157,7 @@ public class PorudzbinaRestController {
         }
     }
 
-    //Pregled porucenih artikala
+
     @GetMapping("/api/pregled-korpe")
     public ResponseEntity<PregledKorpeDto> pregledKorpe(HttpSession session){
         Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
@@ -198,7 +198,7 @@ public class PorudzbinaRestController {
         }
     }
 
-    //Porucivanje
+
     @PutMapping("/api/poruci/{id}")
     public ResponseEntity<String> porucivanje(@PathVariable(name = "id") Long idRestorana, HttpSession session){
         Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");

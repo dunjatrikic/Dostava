@@ -28,6 +28,20 @@ public class ArtikalService {
         return this.artikalRepository.save(artikal);
     }
 
+    public boolean deleteArtikal(Long id,Restoran restoran){
+        for (Artikal artikal : restoran.getArtikli()) {
+            if (artikal.getId().equals(id)) {
+                restoran.getArtikli().remove(artikal);
+                artikal.setRestoran(null);
+                artikalRepository.delete(artikal);
+                restoranService.save(restoran);
+                return true;
+            }
+
+    }
+        return false;
+
+    }
 
     public void delete(Artikal artikal) {   artikalRepository.delete(artikal);  }
 
