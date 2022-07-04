@@ -54,4 +54,6 @@ public class PregledAdminDto {
     public void setListaAdmina(List<Admin> listaAdmina) {
         this.listaAdmina = listaAdmina;
     }
+
+
 }

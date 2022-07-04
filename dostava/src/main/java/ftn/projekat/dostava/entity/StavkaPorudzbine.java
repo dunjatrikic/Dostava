@@ -7,7 +7,7 @@ import java.io.Serializable;
     public class StavkaPorudzbine implements Serializable {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
+        private Long id;
 
 
         @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -23,13 +23,13 @@ import java.io.Serializable;
 
         public StavkaPorudzbine(){}
 
-        public long getId() {
+        public Long getId() {
             return id;
         }
 
-        public void setId(long id) {
-            this.id = id;
-        }
+       // public void setId(long id) {
+          //  this.id = id;
+       // }
 
         public Artikal getArtikal() {
             return artikal;
@@ -46,4 +46,22 @@ import java.io.Serializable;
         public void setPorucenaKolicina(int porucenaKolicina) {
             this.porucenaKolicina = porucenaKolicina;
         }
-}
+
+        public Porudzbina getPorudzbina() {
+            return porudzbina;
+        }
+
+        public void setPorudzbina(Porudzbina porudzbina) {
+            this.porudzbina = porudzbina;
+        }
+
+        @Override
+        public String toString() {
+            return "StavkaPorudzbine{" +
+                    "id=" + id +
+                    ", artikal=" + artikal +
+                    ", porucenaKolicina=" + porucenaKolicina +
+                    ", porudzbina=" + porudzbina +
+                    '}';
+        }
+    }

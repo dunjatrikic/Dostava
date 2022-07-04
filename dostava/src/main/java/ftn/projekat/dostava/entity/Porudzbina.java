@@ -15,11 +15,15 @@ import java.util.UUID;
 @Entity
 public class Porudzbina implements Serializable {
 
-    @Id
+    /*@Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "ID", updatable = false, nullable = false)
-    private java.util.UUID UUID;
+    private java.util.UUID UUID;*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @ManyToOne
     private Dostavljac dostavljac;
@@ -76,12 +80,12 @@ public class Porudzbina implements Serializable {
     }
 
 
-    public java.util.UUID getUUID() {
-        return UUID;
+    public Long getId() {
+        return id;
     }
 
-    public void setUUID(java.util.UUID UUID) {
-        this.UUID = UUID;
+    public void setUUID(Long id) {
+        this.id = id;
     }
 
     public Dostavljac getDostavljac() {

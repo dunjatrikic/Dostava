@@ -68,7 +68,7 @@ public class AdminRestController {
 
     }
 
-   /* @PostMapping("/api/admin/dodavanje-dostavljaca")
+    @PostMapping("/api/admin/dodavanje-dostavljaca")
     public ResponseEntity<String> dodavanjeDostavljaca(@RequestBody DodajMenadzeraDostavljacaDto dodajMenadzeraDostavljacaDto, HttpSession session) {
         Korisnik ulogovani = (Korisnik) session.getAttribute("korisnik");
 
@@ -78,13 +78,15 @@ public class AdminRestController {
             return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
 
         Dostavljac noviDostavljac = new Dostavljac();
+        Pol pol = Pol.valueOf(dodajMenadzeraDostavljacaDto.getPol());
+        Uloga uloga = Uloga.valueOf(dodajMenadzeraDostavljacaDto.getUloga());
 
-        noviDostavljac.setIme(DodajMenadzeraDostavljacaDto.getIme());
-        noviDostavljac.setPrezime(DodajMenadzeraDostavljacaDto.getPrezime());
-        noviDostavljac.setLozinka(DodajMenadzeraDostavljacaDto.getLozinka());
-        noviDostavljac.setPol(DodajMenadzeraDostavljacaDto.getPol());
-        noviDostavljac.setKorisnickoIme(DodajMenadzeraDostavljacaDto.getKorisnickoIme());
-        noviDostavljac.setUloga(DodajMenadzeraDostavljacaDto.getUloga());
+        noviDostavljac.setIme(dodajMenadzeraDostavljacaDto.getIme());
+        noviDostavljac.setPrezime(dodajMenadzeraDostavljacaDto.getPrezime());
+        noviDostavljac.setLozinka(dodajMenadzeraDostavljacaDto.getLozinka());
+        noviDostavljac.setPol(pol);
+        noviDostavljac.setKorisnickoIme(dodajMenadzeraDostavljacaDto.getKorisnickoIme());
+        noviDostavljac.setUloga(uloga);
 
         if (noviDostavljac.getUloga() != Uloga.Dostavljac)
             return new ResponseEntity("Izabrana uloga mora biti: DOSTAVLJAC", HttpStatus.BAD_REQUEST);
@@ -95,7 +97,7 @@ public class AdminRestController {
         this.korisnikService.save(noviDostavljac,Uloga.Dostavljac);
 
         return ResponseEntity.ok("Dodavanje Dostavljaca: Uspesno");
-    }*/
+    }
 
 
     @PostMapping("/api/admin/kreiranje-restorana")
@@ -156,7 +158,7 @@ public class AdminRestController {
 
     }*/
    @PutMapping("/api/admin/postavljanjeMenadzera")
-   public ResponseEntity<Menadzer> addRestoranMenadzer(@RequestBody PostaviMenadzeraDto dto, HttpSession session) {
+   public ResponseEntity addRestoranMenadzer(@RequestBody PostaviMenadzeraDto dto, HttpSession session) {
 
        Korisnik uk = (Korisnik) session.getAttribute("korisnik");
 
@@ -165,7 +167,7 @@ public class AdminRestController {
        if(uk.getUloga() != Uloga.Admin)
            return new ResponseEntity("Funkcionalnost je dostupna samo administratorima aplikacije", HttpStatus.BAD_REQUEST);
 
-       //pronalazenje restorana po izabranom id-u
+
        Restoran restoran = new Restoran();
        restoran = this.menadzerService.findRestoranById(dto.getIdRestorana());
 
@@ -177,7 +179,7 @@ public class AdminRestController {
            return new ResponseEntity("Izabrani restoran vec ima menadzera.", HttpStatus.BAD_REQUEST);
        }
 
-       //pronalazenje menadzera po izabranom korisnickom imenu
+
        Menadzer menadzer = new Menadzer();
        menadzer = this.menadzerService.findByKorisnickoIme(dto.getKorisnickoIme());
 
@@ -186,9 +188,12 @@ public class AdminRestController {
        }
 
        menadzer.setZaduzenRestoran(restoran);
-       final Menadzer updatedMenadzer = menadzerService.save(menadzer);
+       restoran.setMenadzer(menadzer);
 
-       return ResponseEntity.ok(updatedMenadzer);
+       final Menadzer updatedMenadzer = menadzerService.save(menadzer);
+       final Restoran updatedRestoran = restoranService.save(restoran);
+
+       return ResponseEntity.ok("Uspesno!");
    }
 
     @GetMapping("/api/korisnici")

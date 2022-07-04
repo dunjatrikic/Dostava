@@ -69,14 +69,7 @@ public class DataConfiguration {
         Kupac kupac3 = new Kupac("bojana","bojana123","Bojana","Bojanic",Pol.Z,LocalDate.of(2001,5,14),3,tip3);
         kupacRepository.save(kupac3);
 
-        Artikal palacinka = new Artikal("Banana-split palacinka", 350, TipArtikla.jelo, 2, "Palacinka punjena sladoledom od vanile,bananama i plazmom");
-        artikalRepository.save(palacinka);
-        Artikal pizza = new Artikal("Pica", 500, TipArtikla.jelo, 3, "Margarita");
-        artikalRepository.save(pizza);
-        Artikal rizoto = new Artikal("Rizoto sa piletinom", 360, TipArtikla.jelo, 2, "Riza pomesana sa piletinom u sosu od sira i belog vina");
-        artikalRepository.save(rizoto);
-        Artikal giros = new Artikal("Pileci giros", 240, TipArtikla.jelo, 1, "Veliki pileci giros sa prilozima");
-        artikalRepository.save(rizoto);
+
 
 
 
@@ -95,6 +88,26 @@ public class DataConfiguration {
         Lokacija lokacija3 = new Lokacija(25,79,"Janka Veselinovica 3");
         lokacijaRepository.save(lokacija3);
 
+
+
+        Restoran Dizni = new Restoran("Dizni","palacinkarnica",lokacija1);
+        restoranRepository.save(Dizni);
+        Restoran Ciao = new Restoran("Ciao","picerija",lokacija2);
+        restoranRepository.save(Ciao);
+
+        Artikal palacinka = new Artikal("Banana-split palacinka", 350, TipArtikla.jelo, 2, "Palacinka punjena sladoledom od vanile,bananama i plazmom",Dizni);
+        artikalRepository.save(palacinka);
+
+        Artikal pizza = new Artikal("Pica", 500, TipArtikla.jelo, 3, "Margarita",Ciao);
+        artikalRepository.save(pizza);
+
+        Artikal rizoto = new Artikal("Rizoto sa piletinom", 360, TipArtikla.jelo, 2, "Riza pomesana sa piletinom u sosu od sira i belog vina",Dizni);
+        artikalRepository.save(rizoto);
+
+        Artikal giros = new Artikal("Pileci giros", 240, TipArtikla.jelo, 1, "Veliki pileci giros sa prilozima",Ciao);
+        artikalRepository.save(rizoto);
+
+
         Set<Artikal> jelovnikCiao = new HashSet<>();
         jelovnikCiao.add(pizza);
         jelovnikCiao.add(giros);
@@ -102,15 +115,10 @@ public class DataConfiguration {
         jelovnikDizni.add(palacinka);
         jelovnikDizni.add(rizoto);
 
-        Restoran Dizni = new Restoran("Dizni","palacinkarnica",lokacija1);
 
-        restoranRepository.save(Dizni);
         Dizni.setArtikli(jelovnikDizni);
         restoranRepository.save(Dizni);
 
-
-        Restoran Ciao = new Restoran("Ciao","picerija",lokacija2);
-        restoranRepository.save(Ciao);
         Ciao.setArtikli(jelovnikCiao);
         restoranRepository.save(Ciao);
 

@@ -1,9 +1,6 @@
 package ftn.projekat.dostava.service;
 
-import ftn.projekat.dostava.entity.Artikal;
-import ftn.projekat.dostava.entity.Komentar;
-import ftn.projekat.dostava.entity.Lokacija;
-import ftn.projekat.dostava.entity.Restoran;
+import ftn.projekat.dostava.entity.*;
 import ftn.projekat.dostava.repository.RestoranRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +49,8 @@ public class RestoranService {
 
         return null;
     }
+
+
 
     //pronalazenje restorana po odredjenom id-u
     public Restoran findById(long idRestorana){
@@ -104,6 +103,7 @@ public class RestoranService {
     public Artikal saveArtikal(Artikal artikal){  return  this.artikalService.save(artikal);  }
 
     public void deleteArtikal(Artikal artikal){  artikalService.delete(artikal); }
+
 
 
 

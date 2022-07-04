@@ -132,7 +132,7 @@ public class KorisnikRestController {
     }
 
     @GetMapping("/api/admin-pregled")
-    public ResponseEntity<PregledAdminDto> prikaziPregledAdmina(HttpSession session){
+    public ResponseEntity<List<Korisnik>> prikaziPregledAdmina(HttpSession session){
         Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
 
         if(ulogovaniKorisnik == null){
@@ -141,30 +141,16 @@ public class KorisnikRestController {
                     HttpStatus.NOT_FOUND);
         }else{
             if(ulogovaniKorisnik.getUloga() == Uloga.Admin){
-                Admin ulogovaniAdmin = (Admin) session.getAttribute("korisnik");
-                PregledAdminDto pregledDto = new PregledAdminDto();
 
-                List<Menadzer> menadzeriMedjuKorisnicima = menadzerService.findAll();
-                pregledDto.setListaMenadzera(menadzeriMedjuKorisnicima);
-
-                List<Dostavljac> dostavljaciMedjuKorisnicima = dostavljacService.findAll();
-                pregledDto.setListaDostavljaca(dostavljaciMedjuKorisnicima);
-
-                List<Kupac> kupciMedjuKorisnicima = kupacService.findAll();
-                pregledDto.setListaKupaca(kupciMedjuKorisnicima);
-
-
-
-                List<Admin> adminiMedjuKorisnicima = adminService.findAll();
-                pregledDto.setListaAdmina(adminiMedjuKorisnicima);
-
-                return ResponseEntity.ok(pregledDto);
+                List<Korisnik> sviKorisnici = korisnikService.findAll();
+                return ResponseEntity.ok(sviKorisnici);
             }
             else{
-                return new ResponseEntity("Funkcionalnost je dozvoljena samo ADMINIMA.", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity(
+                        "Ulogovani korisnik nije admin",
+                        HttpStatus.UNAUTHORIZED);
             }
         }
     }
-
 
 }

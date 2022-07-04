@@ -143,6 +143,7 @@ public class PorudzbinaRestController {
                     Porudzbina kreiranaPorudzbina = new Porudzbina();
                     kreiranaPorudzbina.setStatus(StatusPorudzbine.U_pripremi);
                     kreiranaPorudzbina.setKupac(ulogovaniKupac);
+                    kreiranaPorudzbina.setRestoranporuceno(trazeniRestoran);
                     porudzbinaService.save(kreiranaPorudzbina);
                     return ResponseEntity.ok("Porudzbina je kreirana!\n");
                 }
@@ -172,7 +173,7 @@ public class PorudzbinaRestController {
                 Porudzbina korpa = porudzbinaService.findFirstbyStatus(StatusPorudzbine.U_pripremi, ulogovaniKupac.getId());
                 korpa.setUkCena(korpa.izracunajCenu());
 
-                List<PregledStavkePorudzbineDto> listaP = new ArrayList<>();
+                List<PregledStavkePorudzbineDto> ArtikliUKorpi = new ArrayList<>();
                 PregledStavkePorudzbineDto pregledArtikla;
                 PregledKorpeDto pregledKorpe = new PregledKorpeDto();
 
@@ -183,10 +184,10 @@ public class PorudzbinaRestController {
                     pregledArtikla.setPorucenaKolicina(st.getPorucenaKolicina());
                     pregledArtikla.setKolicinaArtikla(st.getArtikal().getKolicina());
 
-                    listaP.add(pregledArtikla);
+                    ArtikliUKorpi.add(pregledArtikla);
                 }
                 pregledKorpe.setUkupnaCenaPorudzbine(korpa.izracunajCenu());
-                pregledKorpe.setPregledArtikala(listaP);
+                pregledKorpe.setPregledArtikala(ArtikliUKorpi);
 
                 return ResponseEntity.ok(pregledKorpe);
             }
@@ -227,6 +228,10 @@ public class PorudzbinaRestController {
             }
         }
     }
+
+
+
+
 
 
 

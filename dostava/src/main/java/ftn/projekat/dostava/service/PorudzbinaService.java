@@ -39,7 +39,7 @@ public class PorudzbinaService {
         return porudzbinaRepository.findAllByStatus(status);
     }
 
-    public Porudzbina findFirstbyStatus(StatusPorudzbine status, long id)
+    public Porudzbina findFirstbyStatus(StatusPorudzbine status, Long id)
     {
         return porudzbinaRepository.findByStatusAndKupacId(status, id);
     }
